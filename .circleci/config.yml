@@ -267,39 +267,6 @@ workflows:
             - deploy sandbox-ap-southeast-2 core-services
           filters: *on-push-main
 
-  release prod-us-east-1 core services:
-    jobs:
-      - terraform/apply:
-          name: create prod-us-east-1 core service irsa roles
-          context: << pipeline.parameters.context >>
-          shell:  op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          workspace: prod-us-east-1
-          terraform-version: << pipeline.parameters.terraform-version >>
-          before-terraform:
-            - set-environment:
-                cluster: prod-us-east-1
-                source-env: op.prod.env
-          filters: *on-tag-main
-
-      - deploy-core-services:
-          name: release prod-us-east-1 core-services
-          context: << pipeline.parameters.context >>
-          shell:  op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          source-env: op.prod.env
-          cluster: prod-us-east-1
-          requires:
-            - create prod-us-east-1 core service irsa roles
-          filters: *on-tag-main
-
-      - validate-core-services:
-          name: validate prod-us-east-1 core services
-          context: << pipeline.parameters.context >>
-          shell:  op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          source-env: op.prod.env
-          cluster: prod-us-east-1
-          requires:
-            - release prod-us-east-1 core-services
-          filters: *on-tag-main
 
   # generate-release-notes:
   #   jobs:
@@ -359,12 +326,12 @@ workflows:
           shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
           cluster: sandbox-ap-southeast-2
-      - validate-core-services:
-          name: validate prod-us-east-1
-          context: << pipeline.parameters.context >>
-          shell:  op run --env-file op.prod.env -- /bin/bash -eo pipefail
-          source-env: op.prod.env
-          cluster: prod-us-east-1
+#      - validate-core-services:
+#          name: validate prod-us-east-1
+#          context: << pipeline.parameters.context >>
+#          shell:  op run --env-file op.prod.env -- /bin/bash -eo pipefail
+#          source-env: op.prod.env
+#          cluster: prod-us-east-1
       # - update-dashboard:
       #     name: refresh eks-core-service dashboard
       #     shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
