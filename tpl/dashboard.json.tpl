@@ -1,6 +1,6 @@
 {
   "title": "EMPC lab-platform-eks-core-services",
-  "description": "[lab-platform-eks-core-services](https://github.com/ThoughtWorks-DPS/lab-platform-eks-core-services)",
+  "description": "[twelve-lab-platform-eks-core-services](https://github.com/ThoughtWorks-DPS/twelve-lab-platform-eks-core-services)",
   "widgets": [
     {
       "definition": {
@@ -14,7 +14,7 @@
         "hide_zero_counts": true,
         "show_last_triggered": false,
         "show_priority": false,
-        "query": "tag:pipeline:lab-platform-eks-core-services",
+        "query": "tag:pipeline:twelve-lab-platform-eks-core-services",
         "sort": "status,asc",
         "count": 50,
         "start": 0
