@@ -14,13 +14,13 @@ function version_alert() {
 }
 
 # current versions table
-export TABLE="| dependency | sandbox-ap-southeast-2 | prod-us-east-1 |\\\\n|----|----|----|\\\\n"
+export TABLE="| dependency | nonprod-ap-southeast-2 | prod-us-east-1 |\\\\n|----|----|----|\\\\n"
 export METRICS_SERVER_VERSIONS="| metrics-server |"
 export KUBE_STATE_METRICS_VERSIONS="| kube-state-metrics* |"
 export EFS_CSI_VERSIONS="| efc-csi* |"
 export DATADOG_VERSIONS="| datadog-agent |"
 
-declare -a clusters=(sandbox-ap-southeast-2 prod-us-east-1)
+declare -a clusters=(nonprod-ap-southeast-2 prod-us-east-1)
 
 echo "generate markdown table with the desired versions of the services managed by the lab-platform-eks-base pipeline for all clusters"
 for cluster in "${clusters[@]}";

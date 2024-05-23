@@ -119,9 +119,9 @@ jobs:
       #     name: deploy datadog agents
       #     command: bash scripts/deploy_datadog_agent.sh << parameters.cluster >>
       # - do/circle-deploy
-      - do/slack-webhook:
-          message: lab-platform-eks-core-services << parameters.cluster >> deployment
-          webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
+#      - do/slack-webhook:
+#          message: lab-platform-eks-core-services << parameters.cluster >> deployment
+#          webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
 
       - run:
           name: deploy pixie labs
@@ -221,50 +221,50 @@ jobs:
   #     - checkout
   #     - setup_remote_docker
   #     - set-environment:
-  #         cluster: sandbox-ap-southeast-2
+  #         cluster: nonprod-ap-southeast-2
   #         source-env: << parameters.source-env >>
   #     - run:
   #         name: install requirements
   #         command: pip install -r requirements.txt
   #     - run:
   #         name: update lab-platform-eks-core-services dashboard
-  #         command: bash scripts/deploy_dashboard.sh sandbox-ap-southeast-2
+  #         command: bash scripts/deploy_dashboard.sh nonprod-ap-southeast-2
 
 workflows:
   version: 2
 
-  deploy sandbox-ap-southeast-2 core services:
+  deploy nonprod-ap-southeast-2 core services:
     jobs:
       - terraform/apply:
-          name: create sandbox-ap-southeast-2 core service irsa roles
+          name: create nonprod-ap-southeast-2 core service irsa roles
           context: << pipeline.parameters.context >>
           shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-          workspace: sandbox-ap-southeast-2
+          workspace: nonprod-ap-southeast-2
           terraform-version: << pipeline.parameters.terraform-version >>
           before-terraform:
             - set-environment:
-                cluster: sandbox-ap-southeast-2
+                cluster: nonprod-ap-southeast-2
                 source-env: op.nonprod.env
           filters: *on-push-main
 
       - deploy-core-services:
-          name: deploy sandbox-ap-southeast-2 core-services
+          name: deploy nonprod-ap-southeast-2 core-services
           context: << pipeline.parameters.context >>
           shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: sandbox-ap-southeast-2
+          cluster: nonprod-ap-southeast-2
           requires:
-            - create sandbox-ap-southeast-2 core service irsa roles
+            - create nonprod-ap-southeast-2 core service irsa roles
           filters: *on-push-main
 
       - validate-core-services:
-          name: validate sandbox-ap-southeast-2 core services
+          name: validate nonprod-ap-southeast-2 core services
           context: << pipeline.parameters.context >>
           shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: sandbox-ap-southeast-2
+          cluster: nonprod-ap-southeast-2
           requires:
-            - deploy sandbox-ap-southeast-2 core-services
+            - deploy nonprod-ap-southeast-2 core-services
           filters: *on-push-main
 
 
@@ -279,17 +279,17 @@ workflows:
   # deploy core service monitors:
   #   jobs:
   #     - update-monitors:
-  #         name: update sandbox-ap-southeast-2 monitors
+  #         name: update nonprod-ap-southeast-2 monitors
   #         context: << pipeline.parameters.context >>
   #         shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
   #         source-env: op.nonprod.env
-  #         cluster: sandbox-ap-southeast-2
+  #         cluster: nonprod-ap-southeast-2
   #         filters: *on-push-main
 
   #     - approve prod-us-east-1 monitors release:
   #         type: approval
   #         requires:
-  #           - update sandbox-ap-southeast-2 monitors
+  #           - update nonprod-ap-southeast-2 monitors
   #         filters: *on-push-main
 
   #     - update-monitors:
@@ -321,11 +321,11 @@ workflows:
                 - main
     jobs:
       - validate-core-services:
-          name: validate sandbox-ap-southeast-2
+          name: validate nonprod-ap-southeast-2
           context: << pipeline.parameters.context >>
           shell:  op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: sandbox-ap-southeast-2
+          cluster: nonprod-ap-southeast-2
 #      - validate-core-services:
 #          name: validate prod-us-east-1
 #          context: << pipeline.parameters.context >>
