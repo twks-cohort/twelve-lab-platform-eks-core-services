@@ -10,7 +10,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "twks-cohort"
     workspaces {
-      prefix = "twelve-lab-platform-hosted-zones-"
+      prefix = "twelve-lab-platform-eks-core-services-"
     }
   }
 }
