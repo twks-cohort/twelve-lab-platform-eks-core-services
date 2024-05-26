@@ -10,5 +10,5 @@
     "kube_state_metrics_chart_version": "4.16.0",
     "aws_efs_csi_driver_chart_version": "2.2.7",
 
-{*    "pixie_deploy_key": "{{ op://empc-lab/svc-pixie/deploy-key }}"*}
+    "pixie_deploy_key": "{{ op://cohorts/twelve-pixie/deploy-key }}"
 }
