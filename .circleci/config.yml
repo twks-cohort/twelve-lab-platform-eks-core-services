@@ -123,9 +123,9 @@ jobs:
 #          message: lab-platform-eks-core-services << parameters.cluster >> deployment
 #          webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
 
-      - run:
-          name: deploy pixie labs
-          command: bash scripts/deploy_pixie.sh << parameters.cluster >>
+#      - run:
+#          name: deploy pixie labs
+#          command: bash scripts/deploy_pixie.sh << parameters.cluster >>
 
       - run:
           name: deploy flagger
