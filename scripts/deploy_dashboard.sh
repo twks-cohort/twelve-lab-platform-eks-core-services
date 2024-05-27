@@ -7,24 +7,23 @@ export ALERT_TABLE_COLOR="pink"
 function version_alert() {
   export TABLE_COLOR=$ALERT_TABLE_COLOR
   # every 7 days, also send a slack message
-  if (( "$(date +%d)" % 7 )); then
+  if (("$(date +%d)" % 7)); then
     export payload="{'text': '$1' }"
     curl -X POST -H 'Content-type: application/json' --data "$payload" $LAB_EVENTS_CHANNEL_WEBHOOK
   fi
 }
 
 # current versions table
-export TABLE="| dependency | nonprod-ap-southeast-2 | prod-us-east-1 |\\\\n|----|----|----|\\\\n"
+export TABLE="| dependency | nonprod-ap-southeast-2 |\\\\n|----|----|----|\\\\n"
 export METRICS_SERVER_VERSIONS="| metrics-server |"
 export KUBE_STATE_METRICS_VERSIONS="| kube-state-metrics* |"
 export EFS_CSI_VERSIONS="| efc-csi* |"
 export DATADOG_VERSIONS="| datadog-agent |"
 
-declare -a clusters=(nonprod-ap-southeast-2 prod-us-east-1)
+declare -a clusters=(nonprod-ap-southeast-2)
 
 echo "generate markdown table with the desired versions of the services managed by the lab-platform-eks-base pipeline for all clusters"
-for cluster in "${clusters[@]}";
-do
+for cluster in "${clusters[@]}"; do
   echo $cluster
   # append environment metrics-server version
   export DESIRED_METRICS_SERVER_VERSION=$(cat environments/$cluster.auto.tfvars.json.tpl | jq -r .metrics_server_version)

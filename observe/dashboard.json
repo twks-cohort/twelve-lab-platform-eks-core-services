@@ -47,10 +47,9 @@
       }
     },
     {
-
       "definition": {
         "type": "note",
-        "content": "| dependency | nonprod-ap-southeast-2 | prod-us-east-1 |\n|----|----|----|\n| metrics-server | v0.6.1 | v0.6.1 |\n| kube-state-metrics* | 4.9.0 | 4.9.0 |\n| efc-csi* | 2.2.6 | 2.2.6 |\n| datadog-agent | 7.36.0 | 7.36.0 |\n\n*helm chart version  \nReview datadog chart version on agent change  \ncluster-autoscaler version should match eks k8s version",
+        "content": "| dependency | nonprod-ap-southeast-2 |\n|----|----|----|\n| metrics-server | v0.6.1 | v0.6.1 |\n| kube-state-metrics* | 4.9.0 | 4.9.0 |\n| efc-csi* | 2.2.6 | 2.2.6 |\n| datadog-agent | 7.36.0 | 7.36.0 |\n\n*helm chart version  \nReview datadog chart version on agent change  \ncluster-autoscaler version should match eks k8s version",
         "background_color": "yellow",
         "font_size": "14",
         "text_align": "left",
@@ -94,13 +93,7 @@
         "title_align": "left",
         "show_legend": true,
         "legend_layout": "auto",
-        "legend_columns": [
-          "avg",
-          "min",
-          "max",
-          "value",
-          "sum"
-        ],
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
         "type": "timeseries",
         "requests": [
           {
@@ -315,13 +308,7 @@
         "title_align": "left",
         "show_legend": true,
         "legend_layout": "auto",
-        "legend_columns": [
-          "avg",
-          "min",
-          "max",
-          "value",
-          "sum"
-        ],
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
         "type": "timeseries",
         "requests": [
           {
