@@ -155,38 +155,38 @@ jobs:
 workflows:
   version: 2
 
-  deploy nonprod-ap-southeast-2 core services:
+  deploy sandbox-ap-southeast-2 core services:
     jobs:
       - terraform/apply:
-          name: create nonprod-ap-southeast-2 core service irsa roles
+          name: create sandbox-ap-southeast-2 core service irsa roles
           context: << pipeline.parameters.context >>
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
-          workspace: nonprod-ap-southeast-2
+          workspace: sandbox-ap-southeast-2
           terraform-version: << pipeline.parameters.terraform-version >>
           before-terraform:
             - set-environment:
-                cluster: nonprod-ap-southeast-2
+                cluster: sandbox-ap-southeast-2
                 source-env: op.nonprod.env
           filters: *on-push-main
 
       - deploy-core-services:
-          name: deploy nonprod-ap-southeast-2 core-services
+          name: deploy sandbox-ap-southeast-2 core-services
           context: << pipeline.parameters.context >>
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: nonprod-ap-southeast-2
+          cluster: sandbox-ap-southeast-2
           requires:
-            - create nonprod-ap-southeast-2 core service irsa roles
+            - create sandbox-ap-southeast-2 core service irsa roles
           filters: *on-push-main
 
       - validate-core-services:
-          name: validate nonprod-ap-southeast-2 core services
+          name: validate sandbox-ap-southeast-2 core services
           context: << pipeline.parameters.context >>
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: nonprod-ap-southeast-2
+          cluster: sandbox-ap-southeast-2
           requires:
-            - deploy nonprod-ap-southeast-2 core-services
+            - deploy sandbox-ap-southeast-2 core-services
           filters: *on-push-main
 
   nightly-validation:
@@ -199,8 +199,8 @@ workflows:
                 - main
     jobs:
       - validate-core-services:
-          name: validate nonprod-ap-southeast-2
+          name: validate sandbox-ap-southeast-2
           context: << pipeline.parameters.context >>
           shell: op run --env-file op.nonprod.env -- /bin/bash -eo pipefail
           source-env: op.nonprod.env
-          cluster: nonprod-ap-southeast-2
+          cluster: sandbox-ap-southeast-2

@@ -378,7 +378,7 @@
   "template_variables": [
     {
       "name": "cluster",
-      "default": "nonprod-ap-southeast-2",
+      "default": "sandbox-ap-southeast-2",
       "prefix": "cluster",
       "available_values": []
     },
